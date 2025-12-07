@@ -1,0 +1,14 @@
+# Server logs
+server.log
+
+# Node modules (if ever added)
+node_modules/
+
+# IDE files
+.DS_Store
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak

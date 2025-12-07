@@ -183,150 +183,352 @@
             padding: 24px;
         }
         
+        .timeline-container {
+            position: relative;
+            padding-left: 110px;
+            margin-top: 24px;
+        }
+        
+        .timeline-container .timeline-spine {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 55px;
+            width: 2px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(59,130,246,0.4), rgba(147,51,234,0.25));
+            pointer-events: none;
+        }
+        
         .day-card {
+            position: relative;
             background: white;
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-radius: 24px;
+            margin-bottom: 32px;
+            overflow: visible;
+            box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+            --day-accent: #3b82f6;
+            --day-accent-soft: rgba(59, 130, 246, 0.12);
+        }
+        
+        .day-card:last-child {
+            margin-bottom: 0;
         }
         
         .day-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
+            transform: translateY(-8px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 32px 65px rgba(15, 23, 42, 0.15);
         }
         
-        .day-header {
-            display: grid;
-            grid-template-columns: auto 1fr auto auto;
-            align-items: center;
-            padding: 24px;
-            gap: 16px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
+        .day-card.tokyo-day { --day-accent: #2563eb; --day-accent-soft: rgba(37, 99, 235, 0.12); }
+        .day-card.osaka-day { --day-accent: #f59e0b; --day-accent-soft: rgba(245, 158, 11, 0.18); }
+        .day-card.kyoto-day { --day-accent: #10b981; --day-accent-soft: rgba(16, 185, 129, 0.18); }
+        .day-card.hiroshima-day { --day-accent: #6366f1; --day-accent-soft: rgba(99, 102, 241, 0.18); }
+        .day-card.fuji-day { --day-accent: #8b5cf6; --day-accent-soft: rgba(139, 92, 246, 0.18); }
+        .day-card.disney-day { --day-accent: #ef4444; --day-accent-soft: rgba(239, 68, 68, 0.18); }
         
-        .day-header:hover {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        }
-        
-        .day-toggle {
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(59, 130, 246, 0.1);
-            width: 40px;
-            height: 40px;
-            transition: background 0.2s ease;
-        }
-        
-        .day-toggle:hover {
-            background: rgba(59, 130, 246, 0.2);
-        }
-        
-        .day-number {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.4rem;
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .day-number::after {
-            content: '';
+        .timeline-node {
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-            border-radius: 22px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            left: -78px;
+            top: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--day-accent), #0f172a);
+            color: #fff;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.2);
+            border: 3px solid white;
         }
         
-        .day-card:hover .day-number::after {
+        .day-accordion-trigger {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 36px 32px 24px 32px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .day-accordion-trigger:hover {
+            background: linear-gradient(135deg, rgba(248,250,252,0.8), rgba(241,245,249,0.8));
+        }
+        
+        .day-accordion-trigger:focus-visible {
+            outline: 3px solid rgba(59, 130, 246, 0.4);
+            outline-offset: 6px;
+            border-radius: 22px;
+        }
+        
+        .day-accordion-meta {
+            flex: 1;
+        }
+        
+        .day-accordion-kicker {
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .day-accordion-meta h3 {
+            font-size: 1.8rem;
+            color: #0f172a;
+            margin-bottom: 12px;
+            line-height: 1.35;
+        }
+        
+        .day-accordion-submeta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(148, 163, 184, 0.16);
+            color: #475569;
+        }
+        
+        .day-accordion-cost {
+            min-width: 210px;
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            background: linear-gradient(160deg, rgba(15, 23, 42, 0.03), rgba(148, 163, 184, 0.1));
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: flex-end;
+            position: relative;
+        }
+        
+        .day-accordion-cost strong {
+            font-size: 1.6rem;
+            color: #0f172a;
+        }
+        
+        .day-accordion-cost span {
+            font-size: 0.8rem;
+            color: #475569;
+        }
+        
+        .chevron {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            transition: transform 0.3s ease;
+        }
+        
+        .chevron svg {
+            width: 20px;
+            height: 20px;
+            stroke: #475569;
+            stroke-width: 2.2;
+            fill: none;
+        }
+        
+        .chevron.expanded {
+            transform: rotate(180deg);
+        }
+        
+        .day-panel {
+            padding: 0 32px 32px 32px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease, opacity 0.35s ease;
+        }
+        
+        .day-panel.open {
+            max-height: 1200px;
             opacity: 1;
         }
         
-        .day-info h3 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 10px;
-            line-height: 1.3;
-            letter-spacing: -0.02em;
-        }
-        
-        .day-meta {
+        .activity-list {
+            list-style: none;
+            margin: 0;
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            background: rgba(248, 250, 252, 0.65);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 12px;
-            font-size: 0.875rem;
-            color: #64748b;
         }
         
-        .location-tag {
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 0.75rem;
+        .activity-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 10px 6px;
+        }
+        
+        .activity-marker {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--day-accent);
+            margin-top: 8px;
+            box-shadow: 0 0 0 5px var(--day-accent-soft);
+        }
+        
+        .activity-item p {
+            flex: 1;
+            color: #1f2937;
             font-weight: 500;
+            line-height: 1.6;
         }
         
-        .day-cost {
-            text-align: right;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 20px 24px;
-            border-radius: 16px;
-            box-shadow: 0 6px 24px rgba(16, 185, 129, 0.25);
-            position: relative;
-            overflow: hidden;
+        .highlight-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 22px 0 0;
         }
         
-        .day-cost::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.6s ease;
+        .highlight-chip {
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid currentColor;
+            background: rgba(255,255,255,0.65);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         
-        .day-cost:hover::before {
-            left: 100%;
+        .highlight-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
         }
         
-        .cost-amount {
-            font-size: 1.7rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-            line-height: 1.2;
+        .highlight-orange {
+            color: #d97706;
+            background: rgba(254, 243, 199, 0.6);
+            border-color: rgba(245, 158, 11, 0.5);
         }
         
-        .cost-per-person {
+        .highlight-green {
+            color: #16a34a;
+            background: rgba(220, 252, 231, 0.65);
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+        
+        .highlight-blue {
+            color: #2563eb;
+            background: rgba(219, 234, 254, 0.65);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        
+        .accommodation-card {
+            margin-top: 24px;
+            border-radius: 20px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(15, 23, 42, 0.02));
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+        }
+        
+        .accommodation-card__header {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .accommodation-card__label {
             font-size: 0.75rem;
-            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+        
+        .accommodation-card__header h4 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            color: #0f172a;
+        }
+        
+        .accommodation-card__header span {
+            color: #475569;
+            font-size: 0.9rem;
+        }
+        
+        .accommodation-card__price {
+            text-align: right;
+        }
+        
+        .accommodation-card__price strong {
+            display: block;
+            font-size: 1.4rem;
+            color: #0f172a;
+        }
+        
+        .accommodation-card__price span {
+            font-size: 0.8rem;
+            color: #475569;
+        }
+        
+        .accommodation-card__meta {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .accommodation-card__features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .accommodation-card__features span {
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.85);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            font-size: 0.8rem;
+            color: #1f2937;
+            font-weight: 600;
+        }
+        
+        .accommodation-card__cta {
+            margin-top: 18px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--day-accent), #0f172a);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .accommodation-card__cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.25);
         }
         
         .activities {
@@ -415,24 +617,44 @@
         }
         
         .info-box {
-            background: #f0f9ff;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             border: 1px solid #0ea5e9;
             border-left: 4px solid #0ea5e9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 24px;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 16px rgba(14, 165, 233, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
         }
         
         .info-box h4 {
             color: #0c4a6e;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
         }
         
         .info-box p, .info-box li {
             color: #075985;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
         }
         
         .warning-box {
@@ -454,6 +676,216 @@
             color: #a16207;
             font-size: 0.9rem;
             line-height: 1.5;
+        }
+        
+        .itinerary-banner {
+            border-radius: 28px;
+            padding: 32px;
+            background: linear-gradient(130deg, #0f172a 0%, #1d4ed8 50%, #7c3aed 100%);
+            color: #e2e8f0;
+            margin-bottom: 28px;
+            box-shadow: 0 40px 90px rgba(15, 23, 42, 0.35);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .itinerary-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2), transparent 35%);
+            pointer-events: none;
+        }
+        
+        .banner-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: rgba(226, 232, 240, 0.85);
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .banner-kicker.muted {
+            color: #475569;
+        }
+        
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fbbf24;
+            position: relative;
+        }
+        
+        .pulse-dot::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1px solid rgba(251, 191, 36, 0.6);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+        
+        .itinerary-banner h2 {
+            font-size: 2rem;
+            line-height: 1.3;
+            font-weight: 700;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .itinerary-banner p {
+            max-width: 720px;
+            color: rgba(226, 232, 240, 0.9);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .info-banner__chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-chip {
+            padding: 14px 18px;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.35);
+            border: 1px solid rgba(226, 232, 240, 0.25);
+            min-width: 180px;
+            color: white;
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.25);
+        }
+        
+        .stat-chip strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        
+        .stat-chip span {
+            font-size: 0.8rem;
+            color: rgba(226, 232, 240, 0.8);
+        }
+        
+        .route-overview {
+            border-radius: 24px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            padding: 28px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.95));
+            margin-bottom: 28px;
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        }
+        
+        .route-overview__header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .route-overview__header h3 {
+            font-size: 1.5rem;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        
+        .route-overview__header p {
+            color: #475569;
+            max-width: 560px;
+        }
+        
+        .route-overview__chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .route-overview__chips .stat-chip {
+            background: rgba(15, 23, 42, 0.04);
+            color: #0f172a;
+            box-shadow: none;
+            border-color: rgba(226, 232, 240, 0.8);
+        }
+        
+        .route-overview__chips .stat-chip span {
+            color: #475569;
+        }
+        
+        .route-overview__path {
+            margin-top: 28px;
+            border-radius: 18px;
+            border: 1px dashed rgba(148, 163, 184, 0.5);
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .route-stop {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            background: rgba(248, 250, 252, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            min-width: 170px;
+            flex: 1;
+        }
+        
+        .route-stop__icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(59, 130, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .route-stop__meta strong {
+            display: block;
+            font-size: 1rem;
+            color: #0f172a;
+        }
+        
+        .route-stop__meta span {
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        
+        .route-arrow {
+            font-size: 1.4rem;
+            color: #94a3b8;
         }
         
         .transport-card {
@@ -1096,163 +1528,135 @@
                 background: transparent;
             }
             
+            .timeline-container {
+                padding-left: 20px;
+            }
+            
+            .timeline-container .timeline-spine {
+                left: 10px;
+            }
+            
+            .timeline-node {
+                left: -15px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .itinerary-banner {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            
+            .itinerary-banner h2 {
+                font-size: 1.4rem;
+            }
+            
+            .info-banner__chips {
+                gap: 10px;
+            }
+            
+            .stat-chip {
+                min-width: auto;
+                flex: 1;
+                padding: 12px 14px;
+            }
+            
+            .route-overview {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            
+            .route-overview__header {
+                flex-direction: column;
+            }
+            
+            .route-overview__header h3 {
+                font-size: 1.2rem;
+            }
+            
+            .route-overview__chips {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .route-overview__chips .stat-chip {
+                width: 100%;
+            }
+            
+            .route-overview__path {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .route-stop {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            .route-arrow {
+                transform: rotate(90deg);
+                font-size: 1.2rem;
+            }
+            
             .day-card {
                 margin-bottom: 20px;
                 border-radius: 16px;
                 background: white;
                 border: 1px solid #e2e8f0;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                overflow: hidden;
+                overflow: visible;
             }
             
-            .day-header {
-                display: grid;
-                grid-template-columns: auto 1fr auto auto;
-                align-items: center;
-                text-align: left;
+            .day-accordion-trigger {
+                padding: 20px 16px;
+                flex-direction: column;
                 gap: 12px;
-                padding: 16px;
-                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-                border-bottom: 1px solid rgba(226, 232, 240, 0.5);
-            }
-            
-            .day-toggle {
-                width: 32px;
-                height: 32px;
-                padding: 6px;
-                background: rgba(59, 130, 246, 0.1);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .day-number {
-                width: 56px;
-                height: 56px;
-                font-size: 1.2rem;
-                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-                box-shadow: 0 4px 15px rgba(59,130,246,0.3);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: 700;
-                color: white;
-                border-radius: 16px;
-            }
-            
-            .day-info {
-                flex: 1;
-                min-width: 0;
-            }
-            
-            .day-info h3 {
-                font-size: 1.1rem;
-                margin-bottom: 6px;
-                color: #1e293b;
-                font-weight: 600;
-                line-height: 1.3;
-            }
-            
-            .day-meta {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                gap: 8px;
-                font-size: 0.8rem;
-                color: #64748b;
-                flex-wrap: wrap;
-            }
-            
-            .day-cost {
-                text-align: right;
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                color: white;
-                padding: 12px 14px;
-                border-radius: 12px;
-                box-shadow: 0 4px 15px rgba(16,185,129,0.25);
-                min-width: 100px;
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .cost-amount {
-                font-size: 1.1rem;
-                font-weight: 700;
-                margin-bottom: 2px;
-                line-height: 1.2;
-            }
-            
-            .cost-per-person {
-                font-size: 0.65rem;
-                opacity: 0.9;
-                line-height: 1;
-            }
-            
-            .activities {
-                padding: 20px;
-            }
-            
-            .activity {
-                padding: 12px;
-                margin-bottom: 8px;
-                background: #f8fafc;
-                border-radius: 8px;
-                transition: all 0.2s ease;
-                display: flex;
                 align-items: flex-start;
             }
             
-            .activity:hover {
-                background: #f1f5f9;
+            .day-accordion-meta h3 {
+                font-size: 1.2rem;
             }
             
-            .activity-bullet {
-                margin-right: 12px;
-                color: #3b82f6;
-                font-weight: 600;
-                flex-shrink: 0;
+            .day-accordion-submeta {
+                flex-direction: column;
+                align-items: flex-start;
             }
             
-            .activity-text {
-                font-size: 0.9rem;
-                line-height: 1.5;
-                color: #475569;
-                font-weight: 500;
+            .day-accordion-cost {
+                width: 100%;
+                align-items: center;
+                text-align: center;
             }
             
-            .highlights {
-                padding: 0 20px 20px 20px;
+            .day-panel {
+                padding: 0 16px 20px 16px;
             }
             
-            .highlight-tag {
-                padding: 4px 12px;
-                border-radius: 12px;
-                font-size: 0.75rem;
-                font-weight: 500;
-                border: 1px solid;
-                margin-right: 8px;
-                margin-bottom: 8px;
-                display: inline-block;
+            .activity-list {
+                padding: 16px;
             }
             
-            .highlight-orange {
-                background: #fef3c7;
-                color: #d97706;
-                border-color: #f59e0b;
+            .highlight-chips {
+                gap: 8px;
             }
             
-            .highlight-green {
-                background: #dcfce7;
-                color: #16a34a;
-                border-color: #22c55e;
+            .accommodation-card {
+                margin-top: 16px;
+                padding: 16px;
             }
             
-            .highlight-blue {
-                background: #dbeafe;
-                color: #2563eb;
-                border-color: #3b82f6;
+            .accommodation-card__header {
+                flex-direction: column;
             }
+            
+            .accommodation-card__price {
+                text-align: left;
+            }
+            
+
+
             
             .budget-grid {
                 grid-template-columns: 1fr;
@@ -1485,40 +1889,8 @@
                 transform: none;
             }
             
-            /* Mobile optimizations for clean design */
-            .day-card {
-                margin-bottom: 20px;
-            }
-            
-            .activities {
-                padding: 16px;
-            }
-            
-            .activity {
-                padding: 16px 12px;
-                margin-bottom: 12px;
-                border-radius: 12px;
-                background: white;
-                border: 1px solid rgba(226, 232, 240, 0.8);
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            }
-            
-            .activity strong {
-                font-size: 0.9rem;
-                display: block;
-                margin-bottom: 4px;
-                color: #1e293b;
-            }
-            
-            .activity p {
-                font-size: 0.8rem;
-                line-height: 1.4;
-                margin: 0;
-                color: #64748b;
-            }
-            
             /* Touch targets */
-            button, .tab, .accommodation-book-btn {
+            button, .tab, .accommodation-card__cta {
                 min-height: 44px;
                 min-width: 44px;
                 touch-action: manipulation;
@@ -1576,13 +1948,24 @@
                 border-radius: 12px;
             }
             
-            .day-header h3 {
+            .timeline-node {
+                width: 34px;
+                height: 34px;
+                left: -4px;
+                font-size: 0.95rem;
+            }
+            
+            .day-accordion-trigger {
+                padding: 16px 12px;
+            }
+            
+            .day-accordion-meta h3 {
                 font-size: 1rem;
             }
             
             .accommodation-card {
-                height: 120px;
-                margin: 12px 0;
+                margin: 10px 0;
+                padding: 14px;
             }
             
             .tabs {
@@ -1603,75 +1986,67 @@
                 margin-bottom: 4px;
             }
             
-            .day-number {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
+            .timeline-node {
+                width: 32px;
+                height: 32px;
+                left: -2px;
+                font-size: 0.9rem;
             }
             
-            .route-city {
-                padding: 6px 8px;
-                font-size: 0.6rem;
-                min-width: 45px;
+            .timeline-container {
+                padding-left: 16px;
             }
             
-            .route-city .city-icon {
-                font-size: 1rem;
+            .route-stop {
+                padding: 8px 10px;
             }
             
-            .route-map {
-                padding: 12px;
-                margin: 12px 0;
+            .route-stop__icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
             }
             
-            .route-map h4 {
-                font-size: 0.85rem;
-                margin-bottom: 10px;
+            .itinerary-banner {
+                padding: 16px;
+                border-radius: 12px;
+            }
+            
+            .itinerary-banner h2 {
+                font-size: 1.2rem;
             }
             
             .budget-amount, .footer-amount {
                 font-size: 1.1rem;
             }
             
-            .activity {
-                padding: 12px 8px;
+            .day-accordion-trigger {
+                padding: 14px 10px;
             }
             
-            .day-header {
-                padding: 20px 16px;
+            .day-accordion-meta h3 {
+                font-size: 0.95rem;
             }
             
-            .day-number {
-                width: 48px;
-                height: 48px;
-                font-size: 1.1rem;
-            }
-            
-            .day-info h3 {
-                font-size: 1.1rem;
-            }
-            
-            .activities {
-                padding: 16px 12px;
-            }
-            
-            .activity {
-                padding: 10px 12px;
-                margin-bottom: 8px;
-                border-radius: 10px;
-            }
-            
-            .highlights {
+            .activity-list {
                 padding: 12px;
             }
             
-            .highlight-tag {
-                font-size: 0.7rem;
-                padding: 4px 8px;
+            .activity-item {
+                padding: 6px 4px;
             }
             
-            .activity-text {
+            .activity-item p {
                 font-size: 0.85rem;
+            }
+            
+            .highlight-chips {
+                gap: 6px;
+            }
+            
+            .highlight-chip {
+                font-size: 0.7rem;
+                padding: 4px 8px;
             }
             
             .btn {
@@ -1681,29 +2056,15 @@
             }
             
             .accommodation-card {
-                height: 280px;
-                border-radius: 20px;
-                margin: 20px 0;
-            }
-            
-            .accommodation-content {
-                padding: 20px;
-            }
-            
-            .accommodation-name {
-                font-size: 1.2rem;
-            }
-            
-            .accommodation-price {
-                top: 20px;
-                right: 20px;
-                padding: 6px 10px;
-            }
-            
-            .accommodation-book-btn {
-                padding: 14px 20px;
-                font-size: 0.8rem;
                 border-radius: 14px;
+                margin: 14px 0;
+                padding: 12px;
+            }
+            
+            .accommodation-card__cta {
+                padding: 10px 14px;
+                font-size: 0.8rem;
+                border-radius: 10px;
             }
             
             .budget-card {
@@ -2047,138 +2408,193 @@
                 return 'day-card';
             };
             
+            const InfoBanner = () => {
+                const experienceCount = dayTours.reduce((sum, tour) => sum + tour.activities.length, 0);
+                return (
+                    <section className="itinerary-banner" aria-label="Itinerary overview">
+                        <div className="banner-kicker">
+                            <span className="pulse-dot" aria-hidden="true"></span>
+                            Curated timeline
+                        </div>
+                        <h2>Timeline-first circuit from Tokyo arrival to Hiroshima reflection</h2>
+                        <p>Modern navigation, balanced pacing, and intentional buffers ensure your family stays energized while covering Tokyo, Kansai, and the western highlights before flying home.</p>
+                        <div className="info-banner__chips">
+                            <div className="stat-chip">
+                                <strong>{dayTours.length} days mapped</strong>
+                                <span>Door-to-door clarity</span>
+                            </div>
+                            <div className="stat-chip">
+                                <strong>4 anchor cities</strong>
+                                <span>Tokyo · Osaka · Kyoto · Hiroshima</span>
+                            </div>
+                            <div className="stat-chip">
+                                <strong>{experienceCount}+ touchpoints</strong>
+                                <span>Culture · cuisine · motion</span>
+                            </div>
+                        </div>
+                    </section>
+                );
+            };
+            
+            const RouteOverview = () => {
+                const stops = [
+                    { city: 'Tokyo', icon: '🗼', days: 'Days 1-4 & 8' },
+                    { city: 'Osaka', icon: '🏰', days: 'Day 5' },
+                    { city: 'Kyoto', icon: '⛩️', days: 'Day 6' },
+                    { city: 'Hiroshima', icon: '🕊️', days: 'Day 7' },
+                    { city: 'Tokyo', icon: '✈️', days: 'Departure' }
+                ];
+                
+                return (
+                    <section className="route-overview" aria-label="Route overview">
+                        <div className="route-overview__header">
+                            <div>
+                                <p className="banner-kicker muted">Route overview</p>
+                                <h3>Tokyo launchpad → Kansai highlights → Hiroshima reflection</h3>
+                                <p>Strategic sequencing with built-in buffer windows keeps transfers smooth and maximizes daylight for experiences.</p>
+                            </div>
+                            <div className="route-overview__chips">
+                                <div className="stat-chip">
+                                    <strong>3 Shinkansen legs</strong>
+                                    <span>Reserved seats & luggage plans</span>
+                                </div>
+                                <div className="stat-chip">
+                                    <strong>2 private rides</strong>
+                                    <span>Airport & Mount Fuji region</span>
+                                </div>
+                                <div className="stat-chip">
+                                    <strong>1 cohesive circuit</strong>
+                                    <span>No backtracking days</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="route-overview__path">
+                            {stops.map((stop, idx) => (
+                                <React.Fragment key={`${stop.city}-${idx}`}>
+                                    <div className="route-stop">
+                                        <div className="route-stop__icon" aria-hidden="true">{stop.icon}</div>
+                                        <div className="route-stop__meta">
+                                            <strong>{stop.city}</strong>
+                                            <span>{stop.days}</span>
+                                        </div>
+                                    </div>
+                                    {idx < stops.length - 1 && <div className="route-arrow" aria-hidden="true">⟶</div>}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    </section>
+                );
+            };
+            
+            const ActivityList = ({ activities }) => (
+                <ul className="activity-list">
+                    {activities.map((activity, idx) => (
+                        <li key={idx} className="activity-item">
+                            <span className="activity-marker" aria-hidden="true"></span>
+                            <p>{activity}</p>
+                        </li>
+                    ))}
+                </ul>
+            );
+            
+            const HighlightChips = ({ highlights }) => (
+                <div className="highlight-chips">
+                    {highlights.map((highlight, idx) => (
+                        <span key={idx} className={`highlight-chip ${getHighlightClass(highlight)}`}>
+                            {highlight}
+                        </span>
+                    ))}
+                </div>
+            );
+            
+            const AccommodationCard = ({ accommodation, area }) => (
+                <div className="accommodation-card">
+                    <div className="accommodation-card__header">
+                        <div>
+                            <p className="accommodation-card__label">Stay focus · {area}</p>
+                            <h4>{accommodation.name}</h4>
+                            <span>{accommodation.type}</span>
+                        </div>
+                        <div className="accommodation-card__price">
+                            <strong>{formatPrice(accommodation.price, 'JPY')}</strong>
+                            <span>per night</span>
+                        </div>
+                    </div>
+                    <div className="accommodation-card__meta">
+                        <span className="meta-pill">⭐ {accommodation.rating} guest rating</span>
+                        <div className="accommodation-card__features">
+                            {accommodation.features.map((feature, idx) => (
+                                <span key={idx}>{feature}</span>
+                            ))}
+                        </div>
+                    </div>
+                    <button type="button" className="accommodation-card__cta">Save this stay</button>
+                </div>
+            );
+            
+            const DayCard = ({ day, index }) => {
+                const isExpanded = !!expandedDays[index];
+                const panelId = `day-panel-${day.day}`;
+                const triggerId = `day-trigger-${day.day}`;
+                const perTravelerCost = day.groupPrice ? Math.round(day.price / 3) : day.price;
+                
+                return (
+                    <article className={getDayCardClass(day.area)}>
+                        <div className="timeline-node" aria-hidden="true">{day.day}</div>
+                        <button
+                            type="button"
+                            id={triggerId}
+                            className="day-accordion-trigger"
+                            onClick={() => toggleExpanded(index)}
+                            aria-expanded={isExpanded}
+                            aria-controls={panelId}
+                        >
+                            <div className="day-accordion-meta">
+                                <p className="day-accordion-kicker">Day {day.day} · {day.area}</p>
+                                <h3>{day.description}</h3>
+                                <div className="day-accordion-submeta">
+                                    <span className="meta-pill">📅 {day.date}</span>
+                                    <span className="meta-pill">📍 {day.area}</span>
+                                    <span className="meta-pill">{day.activities.length} touchpoints</span>
+                                </div>
+                            </div>
+                            <div className="day-accordion-cost">
+                                <strong>{formatPrice(perTravelerCost, 'JPY')}</strong>
+                                <span>{day.groupPrice ? 'Per traveler (shared)' : 'Per traveler'}</span>
+                                <span className={`chevron ${isExpanded ? 'expanded' : ''}`} aria-hidden="true">
+                                    <svg viewBox="0 0 24 24">
+                                        <polyline points="6 9 12 15 18 9" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </button>
+                        <div
+                            id={panelId}
+                            className={`day-panel ${isExpanded ? 'open' : ''}`}
+                            role="region"
+                            aria-labelledby={triggerId}
+                            aria-hidden={!isExpanded}
+                        >
+                            <ActivityList activities={day.activities} />
+                            <HighlightChips highlights={day.highlights} />
+                            {day.accommodation && (
+                                <AccommodationCard accommodation={day.accommodation} area={day.area} />
+                            )}
+                        </div>
+                    </article>
+                );
+            };
+            
             const renderItinerary = () => (
                 <div>
-                    <div className="info-box">
-                        <h4>🧭 Complete 8-Day Japan Adventure with Strategic Route</h4>
-                        <p>Experience the perfect balance of iconic attractions with authentic cultural experiences. This enhanced itinerary covers Tokyo → Osaka → Kyoto → Hiroshima with detailed transportation and timing, perfectly planned for your October 3rd departure.</p>
+                    <InfoBanner />
+                    <RouteOverview />
+                    <div className="timeline-container">
+                        <div className="timeline-spine" aria-hidden="true"></div>
+                        {dayTours.map((day, index) => (
+                            <DayCard key={day.day} day={day} index={index} />
+                        ))}
                     </div>
-                    
-                    <div className="route-map">
-                        <h4 style={{textAlign: 'center', marginBottom: '20px', color: '#1e293b'}}>🗾 Your Japan Journey Route</h4>
-                        <div className="route-path">
-                            <div className="route-city current">
-                                <div className="city-icon">🗼</div>
-                                <strong>TOKYO</strong><br/>
-                                <small>Days 1-4 & 8</small>
-                            </div>
-                            <div className="route-arrow">→</div>
-                            <div className="route-city">
-                                <div className="city-icon">🏰</div>
-                                <strong>OSAKA</strong><br/>
-                                <small>Day 5</small>
-                            </div>
-                            <div className="route-arrow">→</div>
-                            <div className="route-city">
-                                <div className="city-icon">⛩️</div>
-                                <strong>KYOTO</strong><br/>
-                                <small>Day 6</small>
-                            </div>
-                            <div className="route-arrow">→</div>
-                            <div className="route-city">
-                                <div className="city-icon">🕊️</div>
-                                <strong>HIROSHIMA</strong><br/>
-                                <small>Day 7</small>
-                            </div>
-                            <div className="route-arrow">→</div>
-                            <div className="route-city">
-                                <div className="city-icon">✈️</div>
-                                <strong>TOKYO</strong><br/>
-                                <small>Return</small>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    {dayTours.map((day, index) => (
-                        <div key={day.day} className={getDayCardClass(day.area)}>
-                            <div className="day-header" onClick={() => toggleExpanded(index)} style={{cursor: 'pointer'}}>
-                                <div className="day-number">{day.day}</div>
-                                <div className="day-info">
-                                    <h3>{day.description}</h3>
-                                    <div className="day-meta">
-                                        <span>📅 {day.date}</span>
-                                        <span className="location-tag">📍 {day.area}</span>
-                                    </div>
-                                </div>
-                                <div className="day-toggle">
-                                    <span style={{
-                                        fontSize: '1.2rem',
-                                        transform: expandedDays[index] ? 'rotate(180deg)' : 'rotate(0deg)',
-                                        transition: 'transform 0.3s ease',
-                                        display: 'inline-block'
-                                    }}>▼</span>
-                                </div>
-                                <div className="day-cost">
-                                    <div className="cost-amount">{formatPrice(day.groupPrice ? Math.round(day.price / 3) : day.price, 'JPY')}</div>
-                                    <div className="cost-per-person">{day.groupPrice ? 'Per Person (Group Price)' : 'Individual Cost'}</div>
-                                </div>
-                            </div>
-                            
-                            {expandedDays[index] && (
-                                <div>
-                                    <div className="activities">
-                                        {day.activities.map((activity, idx) => (
-                                            <div key={idx} className="activity">
-                                                <span className="activity-bullet">•</span>
-                                                <span className="activity-text">{activity}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    
-                                    <div className="highlights">
-                                        {day.highlights.map((highlight, idx) => (
-                                            <span key={idx} className={`highlight-tag ${getHighlightClass(highlight)}`}>
-                                                {highlight}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                            
-                            {day.accommodation && (
-                                <div className={`accommodation-card ${day.area.toLowerCase().includes('osaka') ? 'osaka' : day.area.toLowerCase().includes('hiroshima') ? 'hiroshima' : ''}`}>
-                                    <div className="accommodation-price">
-                                        <div className="accommodation-price-amount">{formatPrice(day.accommodation.price, 'JPY')}</div>
-                                        <div className="accommodation-price-unit">per night</div>
-                                    </div>
-                                    
-                                    <div className="accommodation-content">
-                                        <div className="accommodation-top">
-                                            <div>
-                                                <div className="accommodation-badge">🏨 Overnight Stay</div>
-                                                <div className="accommodation-location">
-                                                    <span>📍 {day.area}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="accommodation-bottom">
-                                            <div className="accommodation-name">{day.accommodation.name}</div>
-                                            <div className="accommodation-type">{day.accommodation.type}</div>
-                                            
-                                            <div className="accommodation-rating">
-                                                <div className="accommodation-stars">
-                                                    {'★'.repeat(Math.floor(day.accommodation.rating))}
-                                                    {day.accommodation.rating % 1 !== 0 && '☆'}
-                                                </div>
-                                                <span>{day.accommodation.rating}</span>
-                                            </div>
-                                            
-                                            <div className="accommodation-features">
-                                                {day.accommodation.features.map((feature, idx) => (
-                                                    <span key={idx} className="feature-tag">{feature}</span>
-                                                ))}
-                                            </div>
-                                            
-                                            <button className="accommodation-book-btn">
-                                                Book your stay
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    ))}
                 </div>
             );
             
